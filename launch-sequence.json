@@ -59,7 +59,14 @@
    "labels": {
     "orbit": "Low Earth orbit",
     "dest": "Target orbit · Earth"
-   }
+   },
+   "transit": [
+    {
+     "d": 1400,
+     "ev": "upper_sep"
+    }
+   ],
+   "transitMs": 2200
   },
   "moon": {
    "body": "moon",
@@ -68,7 +75,18 @@
     "orbit": "Earth parking orbit",
     "deep": "Trans-lunar coast",
     "dest": "Lunar orbit"
-   }
+   },
+   "transit": [
+    {
+     "d": 1500,
+     "ev": "tli"
+    },
+    {
+     "d": 2400,
+     "ev": "upper_sep"
+    }
+   ],
+   "transitMs": 4400
   },
   "mars": {
    "body": "mars",
@@ -77,7 +95,18 @@
     "orbit": "Earth parking orbit",
     "deep": "Interplanetary cruise",
     "dest": "Mars orbit"
-   }
+   },
+   "transit": [
+    {
+     "d": 1500,
+     "ev": "tli"
+    },
+    {
+     "d": 2400,
+     "ev": "upper_sep"
+    }
+   ],
+   "transitMs": 4400
   }
  },
  "rockets": {
@@ -473,6 +502,61 @@
    "id": "failO.base",
    "on": "fail_orbit",
    "who": "Maya Okoye, Flight Director"
+  },
+  {
+   "id": "tli.base",
+   "on": "tli",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "tli.moon",
+   "on": "tli",
+   "who": "Raj Menon, Propulsion Lead",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "tli.mars",
+   "on": "tli",
+   "who": "Raj Menon, Propulsion Lead",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "usep.base",
+   "on": "upper_sep",
+   "who": "Jun Park, Flight Software"
+  },
+  {
+   "id": "msep.base",
+   "on": "module_sep",
+   "who": "Jun Park, Flight Software"
+  },
+  {
+   "id": "msep.moon",
+   "on": "module_sep",
+   "who": "Jun Park, Flight Software",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "msep.mars",
+   "on": "module_sep",
+   "who": "Jun Park, Flight Software",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "failO.leo",
+   "on": "fail_orbit",
+   "who": "Maya Okoye, Flight Director",
+   "mission": [
+    "leo"
+   ]
   }
  ],
  "strings": {
@@ -520,7 +604,74 @@
    "log.ssep": "Stage separation confirmed. Booster falling away.",
    "log.fair": "Fairing jettison.",
    "log.seco": "Second engine cutoff. Coasting.",
-   "bsep.base": "Booster separation confirmed. The boosters are falling behind."
+   "bsep.base": "Booster separation confirmed. The boosters are falling behind.",
+   "tli.base": "Injection burn is go. Leaving Earth orbit.",
+   "tli.moon": "Trans-lunar injection burn is go. Next stop, the Moon.",
+   "tli.mars": "Trans-Mars injection burn is go. We are leaving Earth for good.",
+   "usep.base": "Upper stage separation confirmed. The spacecraft is on its own now.",
+   "msep.base": "Module jettison confirmed. We are lighter and ready for the burn.",
+   "msep.moon": "Transfer module is away. Lining up the lunar capture burn.",
+   "msep.mars": "Cruise stage is away. Lining up the Mars capture burn.",
+   "failO.leo": "We missed the target orbit. The spacecraft is decaying and will reenter. Pull the data and we will learn from it.",
+   "log.tli": "Injection burn. Leaving Earth orbit.",
+   "log.usep": "Upper stage separation. Spacecraft is on its own.",
+   "log.msep": "Module jettisoned."
   }
+ },
+ "sim": {
+  "ascent": {
+   "holdS": 0.9,
+   "v0": 30,
+   "vmax": 430,
+   "maxPitchRad": 1.42,
+   "altKm": 205,
+   "velKms": 7.8,
+   "metS": 510
+  },
+  "earth": {
+   "r": 46,
+   "orbitR": 64,
+   "periodS": 7,
+   "leo": {
+    "targetR": 94,
+    "shortE": 0.3
+   }
+  },
+  "tli": {
+   "burnS": 1.5,
+   "exitScale": 1.22
+  },
+  "transfer": {
+   "durationS": 7,
+   "distance": 1500
+  },
+  "bodies": {
+   "moon": {
+    "r": 26,
+    "km": 384400,
+    "altKm": 120,
+    "vcKms": 1.63
+   },
+   "mars": {
+    "r": 34,
+    "km": 78000000,
+    "altKm": 250,
+    "vcKms": 3.4
+   }
+  },
+  "capture": {
+   "orbitGap": 34,
+   "periodS": 6,
+   "approachFactor": 1.7,
+   "ok": 1.0,
+   "short": 1.18,
+   "miss": 1.55,
+   "burnS": 1.1,
+   "tailS": 2.4,
+   "missTailS": 3.6,
+   "approachFrom": 520
+  },
+  "leoRaiseS": 2.2,
+  "leoDecayS": 4.5
  }
 }
