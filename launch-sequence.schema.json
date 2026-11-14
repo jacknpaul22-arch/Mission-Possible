@@ -1,0 +1,89 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "Mission: Possible launch sequence",
+ "type": "object",
+ "required": ["version", "phases", "missions", "rockets", "dialogue", "strings"],
+ "properties": {
+  "$schema": { "type": "string" },
+  "version": { "const": 1 },
+  "phases": {
+   "type": "object",
+   "required": ["pad", "ascent", "orbit", "deep", "dest"],
+   "additionalProperties": false,
+   "patternProperties": {
+    "^(pad|ascent|orbit|deep|dest)$": {
+     "type": "object",
+     "required": ["label", "camera", "ambient", "vfx"],
+     "properties": {
+      "label": { "type": "string" },
+      "camera": { "enum": ["wide-static", "follow-shake", "slow-pan", "parallax", "push-in"] },
+      "ambient": { "enum": ["pad", "fly", "orbit", "deep", "dest"] },
+      "vfx": { "type": "array", "items": { "type": "string" } }
+     }
+    }
+   }
+  },
+  "missions": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "required": ["body", "deep", "labels"],
+    "properties": {
+     "body": { "enum": ["earth", "moon", "mars"] },
+     "deep": { "type": "boolean", "description": "true = show the deep-space cruise phase before the destination" },
+     "labels": { "type": "object", "additionalProperties": { "type": "string" } }
+    }
+   }
+  },
+  "rockets": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "required": ["coreW", "coreH", "upH", "fairingH", "plume", "maxqThrottle", "thrust", "boosters", "preMs", "pre", "post"],
+    "properties": {
+     "coreW": { "type": "number" }, "coreH": { "type": "number" }, "upH": { "type": "number" }, "fairingH": { "type": "number" },
+     "plume": { "type": "number", "description": "plume length scale" },
+     "maxqThrottle": { "type": "number", "minimum": 0, "maximum": 1, "description": "plume scale while throttled down at max Q" },
+     "thrust": { "type": "number", "description": "launch sound loudness multiplier" },
+     "boosters": { "type": "integer", "minimum": 0, "maximum": 2 },
+     "preMs": { "type": "number", "description": "total length of the pre-check ascent segment (before the launch reliability roll)" },
+     "pre": { "$ref": "#/definitions/timeline" },
+     "post": { "$ref": "#/definitions/timeline" }
+    }
+   }
+  },
+  "dialogue": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "on", "who"],
+    "properties": {
+     "id": { "type": "string", "description": "also the key into strings[lang]" },
+     "on": { "type": "string", "description": "cue name fired by the engine" },
+     "who": { "type": "string", "description": "'Name, Role' exactly as in the cast table" },
+     "rocket": { "type": "array", "items": { "type": "string" } },
+     "mission": { "type": "array", "items": { "type": "string" } },
+     "once": { "type": "boolean" }
+    }
+   }
+  },
+  "strings": {
+   "type": "object",
+   "required": ["en"],
+   "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
+  }
+ },
+ "definitions": {
+  "timeline": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["d", "ev"],
+    "properties": {
+     "d": { "type": "number", "minimum": 0, "description": "ms to wait after the previous event (scaled by flight speed)" },
+     "ev": { "enum": ["liftoff", "maxq", "throttle_up", "booster_sep", "meco", "stage_sep", "fairing", "seco"] }
+    }
+   }
+  }
+ }
+}
