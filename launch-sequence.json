@@ -1,0 +1,526 @@
+{
+ "$schema": "./launch-sequence.schema.json",
+ "version": 1,
+ "phases": {
+  "pad": {
+   "label": "Kennedy Space Center · Pad 39A",
+   "camera": "wide-static",
+   "ambient": "pad",
+   "vfx": [
+    "vent-steam",
+    "dusk-gradient",
+    "tower"
+   ]
+  },
+  "ascent": {
+   "label": "Ascent",
+   "camera": "follow-shake",
+   "ambient": "fly",
+   "vfx": [
+    "ground-smoke",
+    "plume",
+    "gradient-to-black",
+    "speed-stars"
+   ]
+  },
+  "orbit": {
+   "label": "Orbit",
+   "camera": "slow-pan",
+   "ambient": "orbit",
+   "vfx": [
+    "earth-limb",
+    "star-pan"
+   ]
+  },
+  "deep": {
+   "label": "Deep space",
+   "camera": "parallax",
+   "ambient": "deep",
+   "vfx": [
+    "parallax-stars",
+    "distant-body"
+   ]
+  },
+  "dest": {
+   "label": "Destination",
+   "camera": "push-in",
+   "ambient": "dest",
+   "vfx": [
+    "push-in",
+    "orbit-path",
+    "burn-glow"
+   ]
+  }
+ },
+ "missions": {
+  "leo": {
+   "body": "earth",
+   "deep": false,
+   "labels": {
+    "orbit": "Low Earth orbit",
+    "dest": "Target orbit · Earth"
+   }
+  },
+  "moon": {
+   "body": "moon",
+   "deep": true,
+   "labels": {
+    "orbit": "Earth parking orbit",
+    "deep": "Trans-lunar coast",
+    "dest": "Lunar orbit"
+   }
+  },
+  "mars": {
+   "body": "mars",
+   "deep": true,
+   "labels": {
+    "orbit": "Earth parking orbit",
+    "deep": "Interplanetary cruise",
+    "dest": "Mars orbit"
+   }
+  }
+ },
+ "rockets": {
+  "s": {
+   "coreW": 14,
+   "coreH": 66,
+   "upH": 30,
+   "fairingH": 22,
+   "plume": 1.0,
+   "maxqThrottle": 0.75,
+   "thrust": 0.8,
+   "boosters": 0,
+   "preMs": 1500,
+   "pre": [
+    {
+     "d": 0,
+     "ev": "liftoff"
+    },
+    {
+     "d": 700,
+     "ev": "maxq"
+    },
+    {
+     "d": 500,
+     "ev": "throttle_up"
+    }
+   ],
+   "post": [
+    {
+     "d": 800,
+     "ev": "meco"
+    },
+    {
+     "d": 700,
+     "ev": "stage_sep"
+    },
+    {
+     "d": 900,
+     "ev": "fairing"
+    },
+    {
+     "d": 1200,
+     "ev": "seco"
+    }
+   ]
+  },
+  "m": {
+   "coreW": 18,
+   "coreH": 80,
+   "upH": 34,
+   "fairingH": 24,
+   "plume": 1.35,
+   "maxqThrottle": 0.7,
+   "thrust": 1.0,
+   "boosters": 0,
+   "preMs": 1500,
+   "pre": [
+    {
+     "d": 0,
+     "ev": "liftoff"
+    },
+    {
+     "d": 800,
+     "ev": "maxq"
+    },
+    {
+     "d": 500,
+     "ev": "throttle_up"
+    }
+   ],
+   "post": [
+    {
+     "d": 800,
+     "ev": "meco"
+    },
+    {
+     "d": 700,
+     "ev": "stage_sep"
+    },
+    {
+     "d": 800,
+     "ev": "fairing"
+    },
+    {
+     "d": 1200,
+     "ev": "seco"
+    }
+   ]
+  },
+  "h": {
+   "coreW": 22,
+   "coreH": 92,
+   "upH": 40,
+   "fairingH": 26,
+   "plume": 1.8,
+   "maxqThrottle": 0.55,
+   "thrust": 1.4,
+   "boosters": 2,
+   "preMs": 1500,
+   "pre": [
+    {
+     "d": 0,
+     "ev": "liftoff"
+    },
+    {
+     "d": 900,
+     "ev": "maxq"
+    },
+    {
+     "d": 450,
+     "ev": "throttle_up"
+    }
+   ],
+   "post": [
+    {
+     "d": 500,
+     "ev": "booster_sep"
+    },
+    {
+     "d": 700,
+     "ev": "meco"
+    },
+    {
+     "d": 700,
+     "ev": "stage_sep"
+    },
+    {
+     "d": 800,
+     "ev": "fairing"
+    },
+    {
+     "d": 1200,
+     "ev": "seco"
+    }
+   ]
+  }
+ },
+ "dialogue": [
+  {
+   "id": "pad.poll",
+   "on": "phase_pad",
+   "who": "Maya Okoye, Flight Director"
+  },
+  {
+   "id": "pad.poll.h",
+   "on": "phase_pad",
+   "who": "Maya Okoye, Flight Director",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "count.go",
+   "on": "countdown",
+   "who": "Marcus Hale, Launch Director"
+  },
+  {
+   "id": "count.go.mars",
+   "on": "countdown",
+   "who": "Marcus Hale, Launch Director",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "count.go.moon",
+   "on": "countdown",
+   "who": "Marcus Hale, Launch Director",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "lift.base",
+   "on": "liftoff",
+   "who": "Tomas Reyes, Ground Network"
+  },
+  {
+   "id": "lift.h",
+   "on": "liftoff",
+   "who": "Tomas Reyes, Ground Network",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "lift.s",
+   "on": "liftoff",
+   "who": "Tomas Reyes, Ground Network",
+   "rocket": [
+    "s"
+   ]
+  },
+  {
+   "id": "maxq.base",
+   "on": "maxq",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "maxq.h",
+   "on": "maxq",
+   "who": "Raj Menon, Propulsion Lead",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "thr.base",
+   "on": "throttle_up",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "bsep.base",
+   "on": "booster_sep",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "bsep.h",
+   "on": "booster_sep",
+   "who": "Raj Menon, Propulsion Lead",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "meco.base",
+   "on": "meco",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "meco.h",
+   "on": "meco",
+   "who": "Raj Menon, Propulsion Lead",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "ssep.base",
+   "on": "stage_sep",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "ssep.h",
+   "on": "stage_sep",
+   "who": "Raj Menon, Propulsion Lead",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "fair.base",
+   "on": "fairing",
+   "who": "Jun Park, Flight Software"
+  },
+  {
+   "id": "fair.s",
+   "on": "fairing",
+   "who": "Jun Park, Flight Software",
+   "rocket": [
+    "s"
+   ]
+  },
+  {
+   "id": "seco.base",
+   "on": "seco",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "orb.base",
+   "on": "phase_orbit",
+   "who": "Tomas Reyes, Ground Network"
+  },
+  {
+   "id": "orb.leo",
+   "on": "phase_orbit",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "leo"
+   ]
+  },
+  {
+   "id": "orb.moon",
+   "on": "phase_orbit",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "orb.mars",
+   "on": "phase_orbit",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "deep.moon",
+   "on": "phase_deep",
+   "who": "Lena Fischer, Power Systems",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "deep.mars",
+   "on": "phase_deep",
+   "who": "Dr. Amara Okafor, Project Scientist",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "deep.base",
+   "on": "phase_deep",
+   "who": "Dr. Priya Nair, Space Weather"
+  },
+  {
+   "id": "dest.base",
+   "on": "phase_dest",
+   "who": "Tomas Reyes, Ground Network"
+  },
+  {
+   "id": "dest.leo",
+   "on": "phase_dest",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "leo"
+   ]
+  },
+  {
+   "id": "dest.moon",
+   "on": "phase_dest",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "dest.mars",
+   "on": "phase_dest",
+   "who": "Tomas Reyes, Ground Network",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "burn.base",
+   "on": "insertion_start",
+   "who": "Raj Menon, Propulsion Lead"
+  },
+  {
+   "id": "ok.base",
+   "on": "insertion_ok",
+   "who": "Maya Okoye, Flight Director"
+  },
+  {
+   "id": "ok.moon",
+   "on": "insertion_ok",
+   "who": "Maya Okoye, Flight Director",
+   "mission": [
+    "moon"
+   ]
+  },
+  {
+   "id": "ok.mars",
+   "on": "insertion_ok",
+   "who": "Maya Okoye, Flight Director",
+   "mission": [
+    "mars"
+   ]
+  },
+  {
+   "id": "short.base",
+   "on": "insertion_short",
+   "who": "Maya Okoye, Flight Director"
+  },
+  {
+   "id": "failL.base",
+   "on": "fail_launch",
+   "who": "Maya Okoye, Flight Director"
+  },
+  {
+   "id": "failL.h",
+   "on": "fail_launch",
+   "who": "Maya Okoye, Flight Director",
+   "rocket": [
+    "h"
+   ]
+  },
+  {
+   "id": "failO.base",
+   "on": "fail_orbit",
+   "who": "Maya Okoye, Flight Director"
+  }
+ ],
+ "strings": {
+  "en": {
+   "pad.poll": "All stations, final poll. Launch Director, are we go for launch?",
+   "pad.poll.h": "Heavy-lift on the pad, side boosters armed. All stations, final poll. Launch Director, are we go?",
+   "count.go": "Go for launch.",
+   "count.go.mars": "Go for launch. Next stop, Mars.",
+   "count.go.moon": "Go for launch. Next stop, the Moon.",
+   "lift.base": "Liftoff. Tower is clear and telemetry is flowing.",
+   "lift.h": "Liftoff of the heavy-lift. You can feel that one from the control room. Tower clear.",
+   "lift.s": "Liftoff. Small-lift is light and quick off the pad. Tower clear.",
+   "maxq.base": "Passing max Q. Throttling down through the highest aerodynamic stress.",
+   "maxq.h": "Max Q. Core is throttling down while the side boosters push through.",
+   "thr.base": "Through max Q. Throttling back up.",
+   "bsep.h": "Booster separation. Both side boosters are away and falling behind.",
+   "meco.base": "Main engine cutoff. The first stage has done its job.",
+   "meco.h": "Main engine cutoff on the core. Preparing to drop it.",
+   "ssep.base": "Clean separation. Upper stage ignition, nominal thrust.",
+   "ssep.h": "Core separation confirmed. Upper stage lit, thrust is nominal.",
+   "fair.base": "Fairing jettison confirmed. The spacecraft is seeing sunlight for the first time.",
+   "fair.s": "Fairing halves are away. Payload is exposed and healthy.",
+   "seco.base": "Second engine cutoff. We are coasting to orbit.",
+   "orb.base": "Orbit confirmed. Ground stations have a strong signal.",
+   "orb.leo": "Orbit reached, and that is our target. Telemetry looks nominal.",
+   "orb.moon": "Parking orbit achieved. Next up is the long trip to the Moon.",
+   "orb.mars": "Parking orbit achieved. We commit to the Mars transfer from here.",
+   "deep.moon": "Leaving Earth behind. Arrays are deployed and power looks good.",
+   "deep.mars": "Deep space cruise. It is months to Mars, so everything we built has to last.",
+   "deep.base": "We are in the quiet part of the mission. Keep an eye on the radiation levels.",
+   "dest.base": "Approaching the target. Antennas are locked and the link is steady.",
+   "dest.leo": "We are lining up with the target orbit. Antennas locked.",
+   "dest.moon": "Lunar gravity is tugging at us. Lining up the capture burn.",
+   "dest.mars": "Mars is filling the camera. Lining up the capture burn.",
+   "burn.base": "Burn is starting. Our margin is {margin}%. Fingers crossed.",
+   "ok.base": "Orbit insertion looks good. We are captured.",
+   "ok.moon": "We are in lunar orbit. Welcome to the Moon.",
+   "ok.mars": "Mars orbit achieved. That is the one we flew for.",
+   "short.base": "We got captured, but into a lopsided orbit. Science will take a hit.",
+   "failL.base": "Team, we have lost the vehicle. Pull the data and we will learn from it.",
+   "failL.h": "We have lost the heavy-lift vehicle. Range safety has the debris. Pull the data and we will learn from it.",
+   "failO.base": "We missed the capture and the spacecraft flew past the target. Pull the data and we will learn from it.",
+   "log.meco": "Main engine cutoff.",
+   "log.bsep": "Booster separation. Side boosters falling away.",
+   "log.ssep": "Stage separation confirmed. Booster falling away.",
+   "log.fair": "Fairing jettison.",
+   "log.seco": "Second engine cutoff. Coasting.",
+   "bsep.base": "Booster separation confirmed. The boosters are falling behind."
+  }
+ }
+}
