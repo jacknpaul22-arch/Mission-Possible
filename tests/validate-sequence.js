@@ -20,7 +20,14 @@ const missionIds = [...code.matchAll(/var MS=\[([\s\S]*?)\];/g)][0][1].match(/\{
 ok(rocketIds.every(r => emb.rockets[r]), 'every game rocket has a sequence: ' + rocketIds);
 ok(missionIds.every(r => emb.missions[r]), 'every game mission has a sequence: ' + missionIds);
 
+// simulator constants
+const need = { ascent: ['holdS','v0','vmax','maxPitchRad','altKm','velKms','metS'], earth: ['r','orbitR','periodS','leo'], tli: ['burnS','exitScale'], transfer: ['durationS','distance'], capture: ['orbitGap','periodS','approachFactor','ok','short','miss','burnS','tailS','missTailS','approachFrom'] };
+for (const [k, keys] of Object.entries(need)) ok(keys.every(x => emb.sim && emb.sim[k] && emb.sim[k][x] !== undefined), 'sim.' + k + ' has ' + keys.join(','));
+ok(Object.keys(emb.missions).filter(m => emb.missions[m].body !== 'earth').every(m => emb.sim.bodies[m]), 'every non-Earth mission has sim.bodies');
+ok(emb.sim.capture.ok < emb.sim.capture.short && emb.sim.capture.short < Math.SQRT2 && Math.SQRT2 < emb.sim.capture.miss, 'capture speeds: ok < short < escape(1.414) < miss');
+ok(emb.sim.capture.approachFactor > emb.sim.capture.miss, 'approach speed above the miss speed');
 const handlers = [...code.matchAll(/^ (\w+):function\(\)/gm)].map(x => x[1]);
+for (const [id, m] of Object.entries(emb.missions)) { ok(m.transit.every(e => handlers.includes(e.ev)), id + '.transit events have handlers'); ok(m.transit.some(e => e.ev === 'upper_sep'), id + ' has an upper-stage separation'); ok(!m.deep || m.transit.some(e => e.ev === 'tli'), id + ' deep mission has an injection burn'); }
 for (const [id, r] of Object.entries(emb.rockets)) {
   for (const k of ['pre', 'post']) ok(r[k].every(e => handlers.includes(e.ev)), `${id}.${k} events all have handlers`);
   const sum = r.pre.reduce((a, e) => a + e.d, 0);
